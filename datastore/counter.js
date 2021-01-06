@@ -50,7 +50,7 @@ exports.getNextUniqueId = (callback) => {
         if (err) {
           throw ('error writing counter');
         } else {
-          callback(err, id);
+          callback(null, id);                
         }
       });
     }

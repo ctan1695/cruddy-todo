@@ -20,26 +20,28 @@ exports.create = (text, callback) => {
     });
   });
 };
-//   if (err) {
-//     throw ('error getting id');
-//   } else {
-//     items[id] = text;
-//     callback(null, { id, text});
-//     console.log('items: ', items);
-//     console.log('path: ', path.join(exports.dataDir, '/', id + '.txt'));
-//   }
-// });
-
-// exports.dataDir = path.join(__dirname, 'data', id);
-// console.log(this.dataDir);
-// items[id] = text;
-// callback(null, { id, text });
 
 exports.readAll = (callback) => {
-  var data = _.map(items, (text, id) => {
-    return { id, text };
+  fs.readdir(exports.dataDir, (err, files) => {
+    if (err) {
+      throw ('Error reading files');
+    } else {
+      //var data = _.map(files, (text, id) => {
+      var data = _.map(files, (file) => {  
+        var id = file.slice(0, file.indexOf('.'));
+        return { id: id, text: id};
+      });
+      callback(null, data);
+    }
   });
-  callback(null, data);
+  // var data = _.map(items, (text, id) => {
+  //   return { id, text };
+  // });
+  // console.log(exports.dataDir);
+  // //console.log('data: ', data);
+
+  // callback(null, data);
+  
 };
 
 exports.readOne = (id, callback) => {

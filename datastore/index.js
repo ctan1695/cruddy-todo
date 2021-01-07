@@ -34,23 +34,34 @@ exports.readAll = (callback) => {
       callback(null, data);
     }
   });
-  // var data = _.map(items, (text, id) => {
-  //   return { id, text };
-  // });
-  // console.log(exports.dataDir);
-  // //console.log('data: ', data);
-
-  // callback(null, data);
-  
 };
 
-exports.readOne = (id, callback) => {
-  var text = items[id];
-  if (!text) {
-    callback(new Error(`No item with id: ${id}`));
-  } else {
-    callback(null, { id, text });
-  }
+exports.readOne = (id, callback) => { 
+  
+  //console.log(directoryPath);
+  // fs.readdir(directoryPath, (err, data) => {
+  //   if (err) {
+  //     throw (`No item with id: ${id}`);
+  //   } else {
+  //     callback(null, data);
+  //     var data = _.map(files, (file) => {
+  //       var fileName = file.slice(0, file.indexOf('.'));
+  //       if (fileName === id) {
+  //         //console.log('exports.dataDir: ', exports.dataDir);
+  //         //var directoryPath = path.join(exports.dataDir, `${file}`);
+  //         //fs.readFile(directoryPath, )
+  //         //console.log(directoryPath);
+  //       }
+  //   }
+  // }
+
+
+  // var text = items[id];
+  // if (!text) {
+  //   callback(new Error(`No item with id: ${id}`));
+  // } else {
+  //   callback(null, { id, text });
+  // }
 };
 
 exports.update = (id, text, callback) => {

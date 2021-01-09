@@ -37,31 +37,15 @@ exports.readAll = (callback) => {
 };
 
 exports.readOne = (id, callback) => { 
+  var directoryPath = path.join(exports.dataDir, `${id}.txt`);
   
-  //console.log(directoryPath);
-  // fs.readdir(directoryPath, (err, data) => {
-  //   if (err) {
-  //     throw (`No item with id: ${id}`);
-  //   } else {
-  //     callback(null, data);
-  //     var data = _.map(files, (file) => {
-  //       var fileName = file.slice(0, file.indexOf('.'));
-  //       if (fileName === id) {
-  //         //console.log('exports.dataDir: ', exports.dataDir);
-  //         //var directoryPath = path.join(exports.dataDir, `${file}`);
-  //         //fs.readFile(directoryPath, )
-  //         //console.log(directoryPath);
-  //       }
-  //   }
-  // }
-
-
-  // var text = items[id];
-  // if (!text) {
-  //   callback(new Error(`No item with id: ${id}`));
-  // } else {
-  //   callback(null, { id, text });
-  // }
+  fs.readFile(directoryPath, 'utf-8', (err, file) => {
+    if (err) {
+      callback(new Error(`No item with id: ${id}`));
+    } else {      
+      callback(null, { id, text: file }); 
+    }
+  });
 };
 
 exports.update = (id, text, callback) => {

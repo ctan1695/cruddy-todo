@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const _ = require('underscore');
 const counter = require('./counter');
+const Promise = require('bluebird');
+var readDirAsync = Promise.promisify(fs.readDir);
 
 var items = {};
 
@@ -27,7 +29,7 @@ exports.readAll = (callback) => {
       throw ('Error reading files');
     } else {
       //var data = _.map(files, (text, id) => {
-      var data = _.map(files, (file) => {  
+      var data = _.map(files, (file) => {
         var id = file.slice(0, file.indexOf('.'));
         return { id: id, text: id};
       });
@@ -36,14 +38,39 @@ exports.readAll = (callback) => {
   });
 };
 
-exports.readOne = (id, callback) => { 
+exports.readAll = (callback) => {
+  return new Promise((resolve, reject) => {
+    fs.readdir(exports.dataDir, (err, files) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(files);
+      }
+    });
+  });
+
+  fs.readdir(exports.dataDir, (err, files) => {
+    if (err) {
+      throw ('Error reading files');
+    } else {
+      //var data = _.map(files, (text, id) => {
+      var data = _.map(files, (file) => {
+        var id = file.slice(0, file.indexOf('.'));
+        return { id: id, text: id};
+      });
+      callback(null, data);
+    }
+  });
+};
+
+exports.readOne = (id, callback) => {
   var directoryPath = path.join(exports.dataDir, `${id}.txt`);
-  
+
   fs.readFile(directoryPath, 'utf-8', (err, file) => {
     if (err) {
       callback(new Error(`No item with id: ${id}`));
-    } else {      
-      callback(null, { id, text: file }); 
+    } else {
+      callback(null, { id, text: file });
     }
   });
 };
